@@ -1,0 +1,33 @@
+FROM ubuntu:latest
+RUN apt-get update 
+
+RUN apt-get install -y vim
+
+RUN apt-get install -y gcc g++ && \
+    apt-get install -y cmake
+
+RUN apt-get install -y git
+
+RUN apt-get install -y apt-utils
+
+RUN apt-get install -y libavcodec-dev libavformat-dev libswscale-dev && \
+    apt-get install -y libgstreamer-plugins-base1.0-dev libgstreamer1.0-dev
+
+RUN apt-get install -y libgtk-3-dev
+
+RUN apt-get install -y libpng-dev && \
+    apt-get install -y libjpeg-dev && \
+    apt-get install -y libopenexr-dev && \
+    apt-get install -y libtiff-dev && \
+    apt-get install -y libwebp-dev
+
+
+
+RUN git clone --branch 4.9.0 https://github.com/opencv/opencv.git opencv
+RUN git clone --branch 4.9.0 https://github.com/opencv/opencv_contrib.git opencv_contrib
+
+RUN  cd opencv && mkdir -p build && cd build && pwd && \
+     cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D OPENCV_EXTRA_MODULES_PATH=../../opencv_contrib/modules .. && \
+     make install/strip
+
+RUN ln -s /usr/local/include/opencv4/opencv2 /usr/local/include/opencv2

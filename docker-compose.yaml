@@ -1,0 +1,15 @@
+version: "3.9"
+services:
+  cv_cpp_sdk:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.yaml
+    working_dir: /opt/src
+    stdin_open: true
+    tty: true
+    volumes:
+      - ../src/:/opt/src/
+      - ../assets/:/opt/assets/
+      - /tmp/.X11-unix:/tmp/.X11-unix
+    environment:
+      - DISPLAY=$DISPLAY
